@@ -7,7 +7,7 @@ Versão web do [catálogo de filmes em Java](https://github.com/luishgalvao98-ai
 - Busca filmes pelo título na API do TMDB
 - Mostra os resultados em cartões, com título, ano e nota
 - Permite favoritar e remover filmes
-- Guarda os favoritos em arquivo, que continuam lá depois de reiniciar o servidor
+- Guarda os favoritos de cada visitante, separados por navegador (sessão)
 
 ## Tecnologias
 
@@ -36,5 +36,5 @@ Dados fornecidos pela API do TMDB. Este produto usa a API do TMDB, mas não é e
 
 - [x] Busca de filmes na API do TMDB
 - [x] Visual com cartões em CSS
-- [x] Favoritos salvos em arquivo
+- [x] Favoritos separados por visitante (sessão)
 - [ ] Publicar o site online

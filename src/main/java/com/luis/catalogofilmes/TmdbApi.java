@@ -14,6 +14,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import javax.sound.midi.Patch;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,7 +23,10 @@ public class TmdbApi {
 
     static String buscarJson(String titulo) {
         try {
-            String chave = Files.readString(Path.of("chave.txt")).trim();
+            String chave = System.getenv("TMDB_API_KEY");
+            if (chave == null || chave.isBlank()) {
+                chave = Files.readString(Path.of("chave.txt")).trim();
+            }
             String url = "https://api.themoviedb.org/3/search/movie?api_key=" + chave
                     + "&query=" + URLEncoder.encode(titulo, StandardCharsets.UTF_8)
                     + "&language=pt-BR";

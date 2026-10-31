@@ -1,5 +1,6 @@
 package com.luis.catalogofilmes;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 
 @Controller
 public class FilmeController {
-    private final ArrayList<Filme> favoritos = ArmazenamentoFavoritos.carregar();
 
     @GetMapping("/")
     public String inicio(@RequestParam(required = false) String busca, Model model) {
@@ -29,7 +29,8 @@ public class FilmeController {
     }
 
     @PostMapping("/favoritar")
-    public String favoritar(@RequestParam String titulo, @RequestParam int ano, @RequestParam double nota) {
+    public String favoritar(@RequestParam String titulo, @RequestParam int ano, @RequestParam double nota, HttpSession sessao) {
+        ArrayList<Filme> favoritos = favoritosDa(sessao);
         for (Filme filme : favoritos) {
             if (filme.getTitulo().equals(titulo) && filme.getAno() == ano) {
                 return "redirect:/favoritos";
@@ -38,22 +39,30 @@ public class FilmeController {
         Filme novo = new Filme(titulo, ano, nota);
         novo.favorito = true;
         favoritos.add(novo);
-        ArmazenamentoFavoritos.salvar(favoritos);
         return "redirect:/favoritos";
     }
 
     @PostMapping("/remover")
-    public String remover(@RequestParam String titulo, @RequestParam int ano) {
-        favoritos.removeIf(filme -> filme.getTitulo().equals(titulo) && filme.getAno() == ano);
-        ArmazenamentoFavoritos.salvar(favoritos);
+    public String remover(@RequestParam String titulo, @RequestParam int ano, HttpSession sessao) {
+        favoritosDa(sessao).removeIf(filme -> filme.getTitulo().equals(titulo) && filme.getAno() == ano);
         return "redirect:/favoritos";
     }
 
     @GetMapping("/favoritos")
-    public String listarFavoritos(Model model) {
-        model.addAttribute("filmes", favoritos);
+    public String listarFavoritos(Model model, HttpSession sessao) {
+        model.addAttribute("filmes", favoritosDa(sessao));
         model.addAttribute("titulo", "Meus favoritos");
         model.addAttribute("modoFavoritos", true);
         return "filmes";
+    }
+
+    @SuppressWarnings("unchecked")
+    private ArrayList<Filme> favoritosDa(HttpSession sessao) {
+        ArrayList<Filme> favoritos = (ArrayList<Filme>) sessao.getAttribute("favoritos");
+        if (favoritos == null) {
+            favoritos = new ArrayList<>();
+            sessao.setAttribute("favoritos", favoritos);
+        }
+        return favoritos;
     }
 }
