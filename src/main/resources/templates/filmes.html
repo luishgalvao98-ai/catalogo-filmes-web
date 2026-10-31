@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de Filmes</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<h1 th:text="${titulo}">Catálogo de Filmes</h1>
+<p><a href="/favoritos">★ Ver favoritos</a></p>
+<form action="/" method="get">
+    <input type="text" name="busca" placeholder="Buscar filme...">
+    <button type="submit">Buscar</button>
+</form>
+<div class="lista">
+    <div class="cartao" th:each="filme : ${filmes}">
+        <h2 th:text="${filme.titulo}"></h2>
+        <p th:text="${filme.ano}"></p>
+        <p class="nota" th:text="'★ ' + ${#numbers.formatDecimal(filme.nota, 1, 1)}"></p>
+        <form th:action="${modoFavoritos} ? '/remover' : '/favoritar'" method="post">
+            <input type="hidden" name="titulo" th:value="${filme.titulo}">
+            <input type="hidden" name="ano" th:value="${filme.ano}">
+            <input type="hidden" name="nota" th:value="${filme.nota}">
+            <button type="submit" th:text="${modoFavoritos} ? '✖ Remover' : '☆ Favoritar'">☆ Favoritar</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

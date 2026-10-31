@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #141414;
+    color: #f5f5f5;
+    margin: 0;
+    padding: 24px;
+}
+
+h1 {
+    color: #e50914;
+}
+
+form {
+    margin-bottom: 24px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 260px;
+    border: none;
+    border-radius: 6px;
+}
+
+button {
+    padding: 10px 16px;
+    background-color: #e50914;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.cartao {
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    padding: 16px;
+}
+
+.cartao h2 {
+    font-size: 18px;
+    margin: 0 0 8px 0;
+}
+
+.cartao p {
+    margin: 4px 0;
+    color: #b3b3b3;
+}
+
+.cartao .nota {
+    color: #f5c518;
+    font-weight: bold;
+}
+
+.cartao form {
+    margin: 12px 0 0 0;
+}
+
+a {
+    color: #f5c518;
+}
