@@ -56,6 +56,30 @@ public class FilmeController {
         return "filmes";
     }
 
+    @GetMapping("/recomendar")
+    public String recomendar(Model model, HttpSession sessao) {
+        ArrayList<Filme> favoritos = favoritosDa(sessao);
+        String recomendacao;
+        if (favoritos.isEmpty()) {
+            recomendacao = "Favorite alguns filmes primeiro, para a IA conhecer o seu gosto.";
+        } else {
+            String titulos = "";
+            for (Filme filme : favoritos) {
+                titulos = titulos + filme.getTitulo() + " (" + filme.getAno() + "), ";
+            }
+            String pergunta = "Meus filmes favoritos são: " + titulos
+                    + "Recomende 5 filmes parecidos que não estão nessa lista. "
+                    + "Para cada um, escreva título, o ano e uma frase curta dizendo por que combina comigo. "
+                    + "Responda em português do Brasil, em texto simples, sem markdown e sem introdução. ";
+            recomendacao = GeminiApi.perguntar(pergunta);
+        }
+        model.addAttribute("filmes", favoritos);
+        model.addAttribute("titulo", "Meus favoritos");
+        model.addAttribute("modoFavoritos", true);
+        model.addAttribute("recomendacao", recomendacao);
+        return "filmes";
+    }
+
     @SuppressWarnings("unchecked")
     private ArrayList<Filme> favoritosDa(HttpSession sessao) {
         ArrayList<Filme> favoritos = (ArrayList<Filme>) sessao.getAttribute("favoritos");

@@ -64,3 +64,14 @@ button {
 a {
     color: #f5c518;
 }
+
+.recomendacao {
+    background: #1f1f1f;
+    border-left: 4px solid #e50914;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 20px 0;
+    max-width: 800px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}

@@ -8,10 +8,14 @@
 <body>
 <h1 th:text="${titulo}">Catálogo de Filmes</h1>
 <p><a href="/favoritos">★ Ver favoritos</a></p>
+<form action="/recomendar" method="get" th:if="${modoFavoritos}">
+    <button type="submit">Recomendar com IA</button>
+</form>
 <form action="/" method="get">
     <input type="text" name="busca" placeholder="Buscar filme...">
     <button type="submit">Buscar</button>
 </form>
+<div class="recomendacao" th:if="${recomendacao != null}" th:text="${recomendacao}"></div>
 <div class="lista">
     <div class="cartao" th:each="filme : ${filmes}">
         <h2 th:text="${filme.titulo}"></h2>
